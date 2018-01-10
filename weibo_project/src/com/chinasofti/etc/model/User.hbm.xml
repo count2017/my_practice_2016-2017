@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.chinasofti.etc.model">
+<class name="User" table="user_tab">
+<id name="userid" length="32" column="userid">
+   <generator class="uuid.hex"></generator>
+</id>
+<property name="username" length="32" type="string"/>
+<property name="password" length="32"/>
+<property name="nickname" length="32"/>
+<property name="regTime"/>
+<property name="lastLoginTime"/>
+<property name="sex"/>
+<set name="weiboSet" cascade="all">
+<key column="userid"></key>
+<one-to-many class="Weibo"/>
+</set>
+<set name="reweiboSet" cascade="all">
+<key column="userid"></key>
+<one-to-many class="Reweibo"/>
+</set>
+</class>
+</hibernate-mapping>

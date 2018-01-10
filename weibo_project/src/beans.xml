@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	 http://www.springframework.org/schema/aop
+	 http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+	 http://www.springframework.org/schema/tx
+	 http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	<!-- 配置数据库连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"></property>
+		<property name="username" value="weibo"></property>
+		<property name="password" value="weibo"></property>
+	</bean>
+	<!-- 配置hibernate中的SessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 注入数据库连接池对象 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 设置hibernate配置文件路径 -->
+		<property name="mappingResources">
+			<list>
+			  <value>com/chinasofti/etc/model/User.hbm.xml</value>
+			  <value>com/chinasofti/etc/model/Weibo.hbm.xml</value>
+			  <value>com/chinasofti/etc/model/Reweibo.hbm.xml</value>
+			</list>
+		</property>
+		<!-- hibernate的相关配置 -->
+		<property name="hibernateProperties">
+		     <value>
+		       hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+		       hibernate.show_sql=true
+		       hibernate.format_sql=true
+		     </value>
+		</property>
+	</bean>
+	
+	<!-- ********************以上是hibernate.cfg文件的信息*************** -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- hibernate事务管理对象 -->
+	<bean id="tx" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+	   <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="userDao" class="com.chinasofti.etc.dao.impl.UserDaoImpl">
+	   <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="userService" class="com.chinasofti.etc.service.impl.UserServiceImpl">
+	   <property name="userDao" ref="userDao"></property>
+	</bean>
+	<bean id="userAction" class="com.chinasofti.etc.action.UserAction">
+	   <property name="userService" ref="userService"></property>
+	</bean>
+	
+	<bean id="weiboDao" class="com.chinasofti.etc.dao.impl.WeiboDaoImpl">
+	   <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="weiboService" class="com.chinasofti.etc.service.impl.WeiboServiceImpl">
+	   <property name="weiboDao" ref="weiboDao"></property>
+	</bean>
+	<bean id="weiboAction" class="com.chinasofti.etc.action.WeiboAction">
+	   <property name="weiboService" ref="weiboService"></property>
+	</bean>
+	
+	<!-- 声明式事务 -->
+	<tx:advice id="txAdvice" transaction-manager="tx">
+	   <tx:attributes>
+	     <tx:method name="add*" propagation="REQUIRED"/>
+	     <tx:method name="delete*" propagation="REQUIRED"/>
+	     <tx:method name="update*" propagation="REQUIRED"/>
+	     <tx:method name="query*" read-only="true"/>
+	     <tx:method name="find*" read-only="true"/>
+	     <tx:method name="login*" read-only="true"/>
+	   </tx:attributes>
+	</tx:advice>
+	<aop:config>
+	  <aop:advisor advice-ref="txAdvice" pointcut="execution(* com.chinasofti.etc.dao.impl.*.*(..))"/>
+	</aop:config>
+</beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<constant name="struts.action.extension" value="action,do,,"></constant>
+	
+	<package name="main" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="login" class="interceptor.LoginInterceptor" />
+		</interceptors>
+		<!--配置LoginAction信息 -->
+		<action name="loginAction" class="action.LoginAction" method="login">
+			<interceptor-ref name="login" />
+			<interceptor-ref name="defaultStack" />
+			<result>/success.jsp</result>
+			<result name="login">/login.jsp</result>
+		</action>
+
+	</package>
+
+</struts>

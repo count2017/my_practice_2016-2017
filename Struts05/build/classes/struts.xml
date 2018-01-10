@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<!-- 文件上传大小，设置为最大75mb -->
+<constant name="struts.multipart.maxSize" value="78783954"></constant> 
+<constant name="struts.enable.DynamicMethodInvocation" value="false"/>
+<constant name="struts.i18n.encoding" value="utf-8"/>
+<constant name="struts.custom.i18n.resources" value="error_message"></constant>
+<constant name="struts.action.extension" value="action,do,,"></constant>
+    <package name="test" namespace="/" extends="struts-default">
+    	<interceptors>
+    		<interceptor name="h1" class="interceptor.IpInterceptor">
+    		</interceptor>
+    	</interceptors>
+	    <action name="fileUpload_*" class="com.chinasofti.action.FileUploadAction" method="{1}">
+	       <interceptor-ref name="fileUpload">
+	           <param name="allowedTypes">image/png,text/plain</param>
+	           <param name="maximumSize">4000</param>
+	         </interceptor-ref> 
+	         <interceptor-ref name="defaultStack"></interceptor-ref>  
+	        <result name="input">/upload.jsp</result>
+	        <result name="upload">/uploadSuccess.jsp</result>
+	    </action>
+	    
+	    <action name="fileUpload_ManyFileUpload" class="com.chinasofti.action.ManyFileUploadAction" method="ManyFileUpload">
+	       <interceptor-ref name="fileUpload">
+	           <param name="allowedTypes">image/png,text/plain,application/octet-stream</param>
+	           <param name="maximumSize">40000000</param>
+	         </interceptor-ref> 
+	         <interceptor-ref name="defaultStack"/>  
+	          <result name="input">/uploadMany.jsp</result>
+	        <result>/uploadSuccess.jsp</result>
+	        <result name="fail">/uploadMany.jsp</result>
+	    </action>
+    </package>
+    
+    <package name="download" namespace="/" extends="struts-default">
+        <action name="downLoadAction" class="com.chinasofti.action.DownLoadAction">
+           <result type="stream">
+                <param name="contentType">${ContentType}</param>
+                <param name="contentDisposition">attachment;fileName="${fileName}"</param>
+           </result>
+        </action>
+    </package>
+
+</struts>

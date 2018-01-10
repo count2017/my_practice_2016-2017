@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.action.extension" value="action,,"></constant>
+
+	<package name="default" namespace="/" extends="struts-default">
+		<action name="login" class="action.LoginAction">
+			<result>/Login.jsp</result>
+		</action>
+
+		<action name="main" class="action.LoginAction" method="Login">
+			<result>/main.jsp</result>
+			<result name="fail">/Login.jsp</result>
+		</action>
+	</package>
+
+	<package name="main" namespace="/" extends="struts-default">
+
+		<interceptors>
+			<!-- 未登录拦截器 -->
+			<interceptor name="login" class="interceptors.loginInterceptor"></interceptor>
+			<!-- 针对普通用户的拦截器 -->
+			<interceptor name="Interceptor03" class="interceptors.Interceptor03"></interceptor>
+			<!-- 针对系统维护员的拦截器 -->
+			<interceptor name="Interceptor02" class="interceptors.Interceptor02"></interceptor>
+		</interceptors>
+
+		<action name="*_action" class="action.Action" method="{1}">
+			<interceptor-ref name="login"></interceptor-ref>
+			<interceptor-ref name="Interceptor03">
+				<param name="includeMethods">add,delete,update</param>
+			</interceptor-ref>
+			<interceptor-ref name="Interceptor02">
+				<param name="includeMethods">add,delete</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="{1}">/action.jsp</result>
+			<result name="fail">/main.jsp</result>
+			<result name="refused">/main.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping SYSTEM "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.chinasofti.etc.model">
+<class name="Emp" table="emp">
+<id name="empno" column="empno" type="integer">
+<generator class="increment"/>
+</id>
+<property name="name" column="ename" type="string"/>
+<property name="job" column="job" type="string"/>
+<property name="mgr" column="mgr" type="integer"/>
+<property name="hiredate" column="hiredate" type="date"/>
+<property name="sal" column="sal" type="double"/>
+<property name="comm" column="comm" type="double"/>
+<many-to-one name="deptno" column="deptno" class="Dept" lazy="false"/>
+</class>
+</hibernate-mapping>

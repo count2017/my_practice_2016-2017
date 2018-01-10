@@ -1,0 +1,8 @@
+package 并发.thread;
+
+public class MainThread {
+	public static void main(String[] args) {
+		LiftOff launch = new LiftOff();
+		launch.run();
+	}
+}

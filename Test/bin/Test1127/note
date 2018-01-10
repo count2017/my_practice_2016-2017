@@ -1,0 +1,31 @@
+飞行物(FlyingObject)：w,y,width,height,image(图片)
+敌人(Enemy)：接口  getScore() 
+奖励(Award):接口   奖励有：生命值（LIFE） 火力值（DOUBLE_FIRE） 获取奖励的类型getType()
+英雄机(Hero):生命值(life)  火力值(doublefire) 图片数组(images)  控制切换的频率(index)
+敌机(Airplane):步长(speed),getScore()
+子弹(Bullet):步长(speed) 
+小蜜蜂(Bee)：xSpeed（x走的步数） 、ySpeed（y走的步长数）、奖励的类型（awardType(0/1)）
+游戏界面(GameFrame) extends JPanel
+	--窗口的宽度（WIDTH）、窗口高度（HEIGHT）、背景图（background）、敌机(airplane)、小蜜蜂(bee)
+	  子弹(bullet)、英雄机0(hero0)、英雄机0(hero1)、游戏结束图(gameover)、暂停图(pause)、启动图(start)
+	  private Hero hero = new Hero();
+	  private FlyingObject[] flyings = {};//敌人（敌机、小蜜蜂）
+	  private Bullet[] bullets = {};//子弹
+	  GameFrame(){
+	  	flyings = new FlyingObject[2];
+	  	flyings[0] = new Airplane();
+	  	flyings[1] = new Bee();
+	  	bullets = new Bullet[1];
+	  	bullets = new Bullet(50,100);
+	  }
+	  //初始化静态资源（图片）、读取图片到静态变量中
+	  background = ImageIO.read(GameFrame.class.getResource("background.png"));
+	  paint(){
+	  	 --画英雄机
+		 --画敌机
+		 --画子弹
+		 --画小蜜蜂
+	  }
+	 --画英雄机(paintHero)
+	 --画敌机(小蜜蜂和敌机)(paintFlyingObject)
+	 --画子弹(paintBullets)

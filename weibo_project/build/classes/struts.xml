@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+<constant name="struts.i18n.encoding" value="utf-8"/>
+<constant name="struts.action.extension" value="action,do,,"></constant>
+    <package name="test" namespace="/" extends="struts-default">
+    <!-- User_reg_login -->
+    <action name="*_*_*" class="com.chinasofti.etc.action.{1}Action" method="{2}">
+       <result>/{3}.jsp</result>
+       <result name="queryWeibo" type="chain">Weibo_queryWeibo_welcome</result>
+    </action>
+    </package>
+
+</struts>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://serviceImpl.xdyy.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://serviceImpl.xdyy.com" xmlns:intf="http://serviceImpl.xdyy.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://serviceImpl.xdyy.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="funcResult">
+    <complexType>
+     <sequence>
+      <element name="xmlstr" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="funcResultResponse">
+    <complexType>
+     <sequence>
+      <element name="funcResultReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="funcResultRequest">
+
+      <wsdl:part element="impl:funcResult" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="funcResultResponse">
+
+      <wsdl:part element="impl:funcResultResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="WebServiceInterfaceImpl">
+
+      <wsdl:operation name="funcResult">
+
+         <wsdl:input message="impl:funcResultRequest" name="funcResultRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:funcResultResponse" name="funcResultResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="WebServiceInterfaceImplSoapBinding" type="impl:WebServiceInterfaceImpl">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="funcResult">
+
+         <wsdl:input name="funcResultRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="funcResultResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="WebServiceInterfaceImplService">
+
+      <wsdl:port binding="impl:WebServiceInterfaceImplSoapBinding" name="WebServiceInterfaceImpl">
+
+         <wsdlsoap:address location="http://localhost:8080/hisinterface/services/WebServiceInterfaceImpl"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

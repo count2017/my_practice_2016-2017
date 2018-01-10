@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.chinasofti.etc.model">
+<class name="Reweibo" table="reweibo_tab">
+<id name="reweiboid" length="32" column="reweiboid">
+   <generator class="uuid.hex"></generator>
+</id>
+<property name="message" column="reweibomessage"/>
+<property name="addtime" column="addtime"/>
+
+<many-to-one name="user" column="userid" class="User"></many-to-one>
+<many-to-one name="weibo" column="weiboid" class="Weibo"></many-to-one>
+</class>
+</hibernate-mapping>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	
+	<constant name="struts.multipart.maxSize" value="4000"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.i18n.encoding" value="utf-8"/>
+	<constant name="struts.custom.i18n.resources" value="error_message"></constant>
+	<constant name="struts.action.extension" value="action,do,"></constant>
+	
+
+	<package name="default" namespace="/" extends="struts-default">
+		<action name="fileUpload_*" class="action.FileUploadAction" method="{1}">
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">image/jpeg,audio/x-wav,audio/mpeg</param>
+				<param name="maximumSize">1</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="input">/upload.jsp</result>
+			<result name="upload">/uploadSuc.jsp</result>
+		</action>
+		
+		<action name="fileUpload_ManyFileUpload" class="action.ManyFileUploadAction" method="ManyFileUpload">
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">image/jpeg,text/plain,audio/x-wav,audio/mpeg</param>
+				<param name="maximumSize">1</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result>/play.jsp</result>
+			<result name="fail">/uploadMany.jsp</result>
+		</action>
+	</package>
+	
+	
+	 <package name="download" namespace="/" extends="struts-default">
+        <action name="downLoadAction" class="com.chinasofti.action.DownLoadAction">
+           <result type="stream">
+                <param name="contentType">${ContentType}</param>
+                <param name="contentDisposition">attachment;fileName="${fileName}"</param>
+           </result>
+        </action>
+    </package>
+
+	
+</struts>
